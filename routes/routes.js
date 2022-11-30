@@ -55,7 +55,7 @@ router.get("/search/:text", authController.listBooksSearch, (req, res) => {
 //Add favourite book to user
 router.get("/favBooks/:bookTitle", authController.favBooks, (req, res) => {
     if (req.user){
-        res.redirect("/listBooks");
+        res.render("listBooks");
     } else {
         res.redirect("/auth/signout");
     }

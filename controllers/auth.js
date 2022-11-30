@@ -252,7 +252,7 @@ exports.listBooksSearch = async(req, res, then) => {
 
 // Favourite Book
 // book title needs to passed
-exports.favBooks = async(favTitle, req, res, then) => {
+exports.favBooks = async(req, res, then) => {
     if (req.cookies.jwt) {
         try {
             //check token, get user.id
@@ -270,10 +270,26 @@ exports.favBooks = async(favTitle, req, res, then) => {
                 db.query('UPDATE User SET favBook = ?', [req.params.bookTitle],(error, result) => {
                     if(error){
                         console.log(error);
-                    } else {
-                        console.log(result);
+                        return then();
                     }
-                    then();
+                    db.query(`SELECT * FROM Books`, async (error, result) => {
+                        if (error) {
+                            console.log(error)
+                        } else {
+
+                            // console.log(result);
+                            result.shift();// Removes first element(skip 0 index just the column names)
+                            return res.status(200).render('listBooks', {
+                                books: result,
+                                user: req.user
+                            });
+                            // return res.render('books', {
+                            //     message: 'listed books'
+                            // });
+
+                        }
+                        then();
+                    })
                 });
 
             });
