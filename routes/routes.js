@@ -53,7 +53,7 @@ router.get("/search/:text", authController.listBooksSearch, (req, res) => {
 });
 
 //Add favourite book to user
-router.get("/favBooks/:fav", authController.favBooks, (req, res) => {
+router.get("/favBooks/:bookTitle", authController.favBooks, (req, res) => {
     if (req.user){
         res.redirect("/listBooks");
     } else {

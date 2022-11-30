@@ -267,12 +267,13 @@ exports.favBooks = async(favTitle, req, res, then) => {
                 }
                 req.user = result[0];
 
-                db.query('UPDATE User SET favBook = ?', [favTitle],(error, result) => {
+                db.query('UPDATE User SET favBook = ?', [req.params.bookTitle],(error, result) => {
                     if(error){
                         console.log(error);
                     } else {
                         console.log(result);
                     }
+                    then();
                 });
 
             });

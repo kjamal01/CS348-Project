@@ -52,7 +52,6 @@
             {{!-- we dont have a description for books, can make up garbage values --}}
             <th>Add book as Favourite</th>
             <th>Add to list of Read books</th>
-            <th>Add to Reading List</th>
         </tr>
 
         {{#each books}}
@@ -67,10 +66,9 @@
 
             {{!-- need to add functionality for add to DidRead and ToRead lists--}}
             <td>
-                <button class="btn btn-primary" style="margin:5px;" id="addFavBook" role="button">Favourite</button>
+                <button class="btn btn-primary" style="margin:5px;" href="/favBooks/{{this.Title}}" role="button">Favourite</button>
             </td>
             <td><a href="/users/edit/">DidRead</a></td>
-            <td><a href="/users/delete/">ToRead</a></td>
 
         </tr>
         {{/each}}
@@ -82,7 +80,7 @@
 <script>
     const searchBar = document.getElementById('searchBar');
     const searchBtn = document.getElementById('searchBtn');
-    const addFavBook = document.getElementById('addFavBook');
+    //const addFavBook = document.getElementById('addFavBook');
 
     //Function for search btn
     searchBtn.addEventListener("click", goTo);
@@ -97,11 +95,11 @@
     })
 
     //Function for favourite btn
-    addFavBook.addEventListener("click", addFav);
-    function addFav(){
-        var row = $(this).closest("tr");
-        var title = row.find("Title");
-        alert(title);
-        window.location.href = '/favBooks' + title;
-    }
+    //addFavBook.addEventListener("click", addFav);
+    //function addFav(){
+    //    var row = $(this).closest("tr");
+    //    var title = row.find("Title");
+    //    alert(title);
+    //    window.location.href = '/favBooks' + title;
+    //}
 </script>
