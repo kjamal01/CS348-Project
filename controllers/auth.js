@@ -252,14 +252,40 @@ exports.listBooksSearch = async(req, res, then) => {
 
 // Favourite Book
 // book title needs to passed
-exports.favBooks = async(favTitle, req, res) => {
-    db.query('UPDATE User SET favBook = ?', [favTitle],(error, result) => {
-        if(error){
-            console.log(error);
-        } else {
-            console.log(result);
+exports.favBooks = async(favTitle, req, res, then) => {
+    if (req.cookies.jwt) {
+        try {
+            //check token, get user.id
+            const token = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT);
+            console.log(token);
+
+            //make sure user still exists
+            db.query(`SELECT * FROM user WHERE id = ?`, [token.id], (error, result) => {
+                console.log(result);
+                if (!result) {
+                    return then();
+                }
+                req.user = result[0];
+
+                db.query('UPDATE User SET favBook = ?', [favTitle],(error, result) => {
+                    if(error){
+                        console.log(error);
+                    } else {
+                        console.log(result);
+                    }
+                });
+
+            });
+
+        } catch (error) {
+            console.log(error);  
+            return;
+
         }
-    });
+
+    } else {
+        then();
+    }
 }
 
 // Delete
