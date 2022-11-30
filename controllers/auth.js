@@ -319,6 +319,96 @@ exports.addDidRead = async (req, res, then) => {
         then();
     }
 }
+
+// Favourite Book
+// book title needs to passed
+exports.favBooks = async(req, res, then) => {
+    if (req.cookies.jwt) {
+        try {
+            //check token, get user.id
+            const token = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT);
+            console.log(token);
+
+            //make sure user still exists
+            db.query(`SELECT * FROM user WHERE id = ?`, [token.id], (error, result) => {
+                console.log(result);
+                if (!result) {
+                    return then();
+                }
+                req.user = result[0];
+
+                db.query('UPDATE user SET favBook = ? WHERE id = ?', [req.params.title, token.id],(error, result) => {
+                    if(error){
+                        console.log(error);
+                        return then();
+                    }
+                    db.query(`SELECT * FROM Books`, async (error, result) => {
+                        if (error) {
+                            console.log(error)
+                        } else {
+                            // console.log(result);
+                            result.shift();// Removes first element(skip 0 index just the column names)
+                            return res.status(200).render('listBooks', {
+                                books: result,
+                                user: req.user
+                            });
+
+                        }
+                        then();
+                    })
+                });
+
+            });
+
+        } catch (error) {
+            console.log(error);  
+            return;
+
+        }
+
+    } else {
+        then();
+    }
+}
+
+// Clear favourite Book
+exports.deleteFavBook = async(req, res, then) => {
+    if (req.cookies.jwt) {
+        try {
+            //check token, get user.id
+            const token = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT);
+            console.log(token);
+
+            //make sure user still exists
+            db.query(`SELECT * FROM user WHERE id = ?`, [token.id], (error, result) => {
+                console.log(result);
+                if (!result) {
+                    return then();
+                }
+                req.user = result[0];
+
+                db.query('UPDATE user SET favBook = NULL WHERE id = ?', [token.id],(error, result) => {
+                    if(error){
+                        console.log(error);
+                    } else {
+                        console.log(result);
+                    }
+                    then();
+                });
+
+            });
+
+        } catch (error) {
+            console.log(error);  
+            return;
+
+        }
+
+    } else {
+        then();
+    }
+}
+
 // Delete
 // userID passed from routes.js
 exports.deleteAccount = async (userID, req, res) => {

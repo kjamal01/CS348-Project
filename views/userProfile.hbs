@@ -33,6 +33,10 @@
                         <h5 class="profile-title">Hi {{user.name}}!</h5>
                         {{!-- <a href="#" class="btn btn-primary">{{user.username}}</a> --}}
                         <a class="btn btn-primary" href="/deleteAccount" role="button">Delete Account</a>
+                        <br></br>
+                        <h5 class="text">Favourite Book</h5>
+                        <body>{{user.favBook}}</body>
+                        <a class="btn btn-primary" style="margin:5px;" href="/deleteFavBook" role="button">Clear Favourite</a>
                     </div>
                 </div>
             </div>

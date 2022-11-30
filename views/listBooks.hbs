@@ -49,6 +49,7 @@
             <th>PublishDate</th>
             <th>Description</th>
             {{!-- we dont have a description for books, can make up garbage values --}}
+            <th>Add book as Favourite</th>
             <th>Add to list of Read books</th>
             {{!-- <th>Add to Reading List</th> --}}
         </tr>
@@ -63,8 +64,11 @@
             <td>{{this.PublishDate}}</td>
             <td>{{this.Description}}</td>
             <td>
+                <a class="btn btn-primary" style="margin:5px;" href="/favBooks/{{this.Title}}" role="button">Favourite</a>
+            </td>
+            <td>
                 <a class="btn btn-primary" href = "/addDidRead/{{this.ID}}" role="button" >DidRead</a>
-                </td>
+            </td>
         </tr>
         {{/each}}
     </table>

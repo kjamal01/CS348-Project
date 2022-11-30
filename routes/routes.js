@@ -53,6 +53,25 @@ router.get("/search/:text", authController.listBooksSearch, (req, res) => {
     }
 });
 
+//Add a favourite book
+router.get("/favBooks/:title", authController.favBooks, (req, res) => {
+    console.log("/favBooks/:title: ", req.params);
+    if (req.user) {
+        res.render("listBooks");
+    } else {
+        res.redirect("/signin");
+    }
+});
+
+//Clear favourite book
+router.get("/deleteFavBook", authController.deleteFavBook, (req, res) => {
+    if (req.user) {
+        res.redirect("/userProfile");
+    } else {
+        res.redirect("/signin");
+    }
+});
+
 //Delete user
 router.get("/deleteAccount", authController.signedIn, (req, res) => {
     if (req.user){
