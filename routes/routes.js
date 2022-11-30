@@ -52,6 +52,16 @@ router.get("/search/:text", authController.listBooksSearch, (req, res) => {
     } 
 });
 
+//Add favourite book to user
+router.get("/favBooks/:fav", authController.favBooks, (req, res) => {
+    if (req.user){
+        res.redirect("/listBooks");
+    } else {
+        res.redirect("/auth/signout");
+    }
+});
+
+
 //Delete user
 router.get("/deleteAccount", authController.signedIn, (req, res) => {
     if (req.user){

@@ -250,6 +250,18 @@ exports.listBooksSearch = async(req, res, then) => {
     }
 }
 
+// Favourite Book
+// book title needs to passed
+exports.favBooks = async(favTitle, req, res) => {
+    db.query('UPDATE User SET favBook = ?', [favTitle],(error, result) => {
+        if(error){
+            console.log(error);
+        } else {
+            console.log(result);
+        }
+    });
+}
+
 // Delete
 // userID passed from routes.js
 exports.deleteAccount = async(userID, req, res) => {
