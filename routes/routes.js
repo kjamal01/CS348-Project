@@ -57,7 +57,7 @@ router.get("/favBooks/:bookTitle", authController.favBooks, (req, res) => {
     if (req.user){
         res.render("listBooks");
     } else {
-        res.redirect("/auth/signout");
+        res.redirect("/signin");
     }
 });
 
